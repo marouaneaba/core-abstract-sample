@@ -1,6 +1,6 @@
 package com.example.demo.core;
 
-import com.example.demo.facade.ShoeFacade;
+import com.example.demo.facade.StockFacade;
 import lombok.val;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.Optional;
 
-public abstract class AbstractShoeCore implements ShoeCore {
+public abstract class AbstractStockCore implements StockCore {
 
   @Autowired
-  private ShoeFacade shoeFacade;
+  private StockFacade stockFacade;
 
   @PostConstruct
   void init(){
@@ -20,8 +20,6 @@ public abstract class AbstractShoeCore implements ShoeCore {
                           .map(Implementation::version)
                           .orElseThrow(() -> new FatalBeanException("AbstractShoeCore implementation should be annotated with @Implementation"));
 
-    shoeFacade.register(version, this);
-
+    stockFacade.register(version, this);
   }
-
 }
