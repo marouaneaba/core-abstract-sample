@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar ./controller/target/controller-1.0.jar --server.port=$PORT $JAR_OPTS

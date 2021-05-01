@@ -29,6 +29,9 @@
   <properties>
     <java.version>14</java.version>
     <springDocVersion>3.0.0</springDocVersion>
+    <sonar.projectKey>marouaneaba_core-abstract-sample-${project.groupId}:${project.artifactId}</sonar.projectKey>
+    <sonar.organization>marouaneaba</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
   <dependencies>
