@@ -44,11 +44,6 @@
       <version>${parent.version}</version>
     </dependency>
     <dependency>
-      <groupId>jakarta.validation</groupId>
-      <artifactId>jakarta.validation-api</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
       <groupId>com.example</groupId>
       <artifactId>core-shop</artifactId>
       <version>1.0</version>

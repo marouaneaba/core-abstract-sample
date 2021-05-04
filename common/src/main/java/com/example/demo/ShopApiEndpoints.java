@@ -1,16 +1,9 @@
 package com.example.demo;
 
-
 /**
- * <p>
- * <p>
- * Centralise l'ensemble des endpoints disponibles pour les apis RESTS.
- * Utilisée dans
- * <ul>
- * <li>la définition des apis</li>
- * <li>les tests</li>
- * </ul>
- * </p>
+ * Centralizes all endpoints available for REST APIs.
+ * Used in the definition of APIs
+ *
  */
 public class ShopApiEndpoints {
 

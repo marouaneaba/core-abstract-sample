@@ -17,18 +17,19 @@ public class StockItem implements Serializable {
 
   @JsonIgnore private Long id;
 
-  @NotEmpty(message = "Name is required")
+  @NotBlank(message = "Name is not blank")
   @JsonIgnore
   private String name;
 
   @NotNull(message = "Size is required")
+  @PositiveOrZero(message = "Size is positive or zero")
   private Integer size;
 
-  @NotBlank(message = "Color is required")
+  @NotNull(message = "Color is required")
   private Color color;
 
-  @Positive(message = "Quantity cannot be negative")
-  @Max(message = "Quantity is less than thirty", value = 30)
+  @Max(message = "Quantity is between  [ 0 , 30 ]", value = 30)
+  @Min(message = "Quantity is between  [ 0 , 30 ]", value = 0L)
   @NotNull(message = "Quantity is required")
   private Integer quantity;
 

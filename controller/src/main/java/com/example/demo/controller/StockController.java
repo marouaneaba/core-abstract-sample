@@ -12,19 +12,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-05-4T08:55:39.049Z")
-
+@javax.annotation.Generated(
+    value = "io.swagger.codegen.languages.SpringCodegen",
+    date = "2021-05-4T08:55:39.049Z")
 @RestController
 @RequiredArgsConstructor
 public class StockController implements StockApi {
 
-    private final StockFacade stockFacade;
+  private final StockFacade stockFacade;
 
-    public ResponseEntity<Stock> get(@ApiParam(value = "The verion API", required = true)@RequestHeader Integer version) {
-        return ResponseEntity.ok(this.stockFacade.get(version).getStock());
-    }
+  public ResponseEntity<Stock> get(
+      @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version) {
+    return ResponseEntity.ok(this.stockFacade.get(version).getStock());
+  }
 
-    public void patch(@RequestHeader Integer version, @Valid @RequestBody StockItem stockItem) {
-        this.stockFacade.get(version).patch(stockItem);
-    }
+  public void patch(
+      @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version,
+      @ApiParam(value = "Stock item object" ,required=true ) @Valid @RequestBody StockItem stockItem) {
+    this.stockFacade.get(version).patch(stockItem);
+  }
+
+  public void patch(
+      @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version,
+      @ApiParam(value = "Stock object contains list of stock item" ,required=true ) @Valid @RequestBody Stock stock) {
+    this.stockFacade.get(version).patch(stock);
+  }
 }

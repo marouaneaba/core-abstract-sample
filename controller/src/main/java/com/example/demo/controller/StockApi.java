@@ -14,25 +14,66 @@ import javax.validation.Valid;
 
 @Validated
 @RequestMapping(ShopApiEndpoints.STOCK)
-@Api(value = "Stock", description = "the stock API", tags = {"stock"})
+@Api(
+    value = "Stock",
+    description = "the stock API",
+    tags = {"stock"})
 public interface StockApi {
 
-    @ApiOperation(value = "returns the shoes and quantity of the stock", notes = "returns the shoe and quantity of the stock", response = Stock.class, tags = {"stock",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
-            @ApiResponse(code = 400, message = "Malformed request version param"),
+  @ApiOperation(
+      value = "returns the shoes and quantity of the stock",
+      notes = "returns the shoe and quantity of the stock",
+      response = Stock.class,
+      tags = {
+        "stock",
+      })
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
+        @ApiResponse(code = 400, message = "Malformed request version param"),
+      })
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  ResponseEntity<Stock> get(@ApiParam(value = "The verion API", required = true) @RequestHeader Integer version);
 
-            })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Stock> get(@ApiParam(value = "The verion API", required = true) @RequestHeader Integer version);
+  @ApiOperation(
+      value = "Update the stock by submitting a stock item model",
+      notes = "Update the stock item",
+      response = Stock.class,
+      tags = {
+        "stock",
+      })
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
+        @ApiResponse(
+            code = 400,
+            message = "Stock capacity limited of 30 shoes",
+            response = String.class),
+      })
+  @PatchMapping(path = ShopApiEndpoints.SHOES, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void patch(
+      @RequestHeader Integer version,
+      @ApiParam(value = "Stock item object", required = true) @Valid @RequestBody StockItem stockItem);
 
-    @ApiOperation(value = "Update the stock by submitting a small shoe model", notes = "Update the stock", response = Stock.class, tags = {"stock",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
-            @ApiResponse(code = 400, message = "Stock capacity limited of 30 shoes", response = String.class),
-
-    })
-    @PatchMapping(path = ShopApiEndpoints.SHOES, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patch(@RequestHeader Integer version, @Valid @RequestBody StockItem stockItem);
+  @ApiOperation(
+      value = "Update the stock by submitting a big json objet containing all shoes and their quantities",
+      notes = "Update the stock",
+      response = Stock.class,
+      tags = {
+        "stock",
+      })
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 204, message = "No content", response = Stock.class),
+        @ApiResponse(
+            code = 400,
+            message = "Stock collection contains a duplication of stock capacity greater than 30 shoes",
+            response = String.class),
+      })
+  @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void patch(
+      @RequestHeader Integer version,
+      @ApiParam(value = "Stock object contains list of stock item", required = true) @Valid @RequestBody Stock stock);
 }
