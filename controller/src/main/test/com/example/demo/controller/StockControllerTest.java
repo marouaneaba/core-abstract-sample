@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.ShopApiEndpoints;
-import com.example.demo.dto.out.stock.Stock;
-import com.example.demo.dto.out.stock.StockOutline;
+import com.example.demo.dto.stock.out.Stock;
+import com.example.demo.dto.stock.out.StockItem;
 import com.example.demo.facade.StockFacade;
-import com.example.demo.shoe.repository.ShoeRepository;
 import com.example.demo.stock.creator.StockCreator;
 import com.example.demo.stock.domain.StockDomain;
-import com.example.demo.stock.fixture.ShoeFixture;
+import com.example.demo.stock.fixture.StockFixture;
 import com.example.demo.stock.helper.StockHelper;
+import com.example.demo.stock.repository.StockMeasureRepository;
+import com.example.demo.utils.ShopConstant;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -32,54 +33,52 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(StockController.class)
-@Import({StockDomain.class, StockCreator.class, StockHelper.class, ShoeRepository.class})
+@Import({StockDomain.class, StockCreator.class, StockHelper.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class StockControllerTest {
 
-    protected static final String VERSION = "version";
+  protected static final String VERSION = "version";
 
-    @Autowired
-    protected MockMvc mockMvc;
+  @Autowired protected MockMvc mockMvc;
 
-    @Autowired
-    protected ObjectMapper jsonMapper;
+  @Autowired protected ObjectMapper jsonMapper;
 
-    @MockBean
-    private StockFacade stockFacade;
+  @MockBean private StockFacade stockFacade;
 
-    @Autowired
-    private StockDomain stockDomain;
+  @Autowired private StockDomain stockDomain;
 
-    @MockBean
-    private ShoeRepository shoeRepository;
+  @MockBean private StockMeasureRepository stockMeasureRepository;
 
+  @BeforeAll
+  public void setUp() {
+    Mockito.when(this.stockFacade.get(anyInt())).thenReturn(stockDomain);
+  }
 
-    @BeforeAll
-    public void setUp() {
-        Mockito.when(this.stockFacade.get(anyInt())).thenReturn(stockDomain);
-    }
+  @Test
+  @DisplayName("GET /stock success")
+  void shouldReturnOkStatusAndStateEmptyWhenGetStockVersionIsThreeAndStockIsEmpty()
+      throws Exception {
+    // Given
+    Mockito.when(this.stockMeasureRepository.findAll()).thenReturn(StockFixture.createStockSome());
 
-    @Test
-    @DisplayName("GET /stock success")
-    void shouldReturnOkStatusAndEmptyStateWhenVersionIsThreeAndStockIsEmpty() throws Exception {
-        // Given
-        Mockito.when(this.shoeRepository.findAll()).thenReturn(ShoeFixture.createStockSome());
-
-        // When
-        MvcResult result = this.mockMvc.perform(
+    // When
+    MvcResult result =
+        this.mockMvc
+            .perform(
                 get(ShopApiEndpoints.STOCK)
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .header(VERSION, 3)
-        )
-                .andExpect(status().isOk())
-                .andReturn();
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .header(VERSION, 3))
+            .andExpect(status().isOk())
+            .andReturn();
 
-        // Then
-        Stock stock = jsonMapper.readValue(result.getResponse().getContentAsString(), Stock.class);
-        assertThat(stock).isNotNull();
-        assertThat(stock).extracting(Stock::getState).isEqualTo(Stock.State.SOME);
-        assertThat(stock.getShoes().stream().mapToInt(StockOutline::getQuantity).sum()).isBetween(1,30);
-        assertThat(stock.getShoes().stream().mapToInt(StockOutline::getQuantity).sum()).isEqualTo(8);
-    }
-    
+    // Then
+    Stock stock = jsonMapper.readValue(result.getResponse().getContentAsString(), Stock.class);
+    assertThat(stock).isNotNull();
+    assertThat(stock).extracting(Stock::getState).isEqualTo(Stock.State.SOME);
+    assertThat(stock.getShoes()).extracting("name").containsOnlyNulls();
+    assertThat(stock.getShoes()).extracting("id").containsOnlyNulls();
+    assertThat(stock.getShoes().stream().mapToInt(StockItem::getQuantity).sum())
+        .isBetween(ShopConstant.STOCK_MIN_CAPACITE, ShopConstant.STOCK_MAX_CAPACITE);
+    assertThat(stock.getShoes().stream().mapToInt(StockItem::getQuantity).sum()).isEqualTo(8);
+  }
 }

@@ -1,8 +1,8 @@
 package com.example.demo.stock.creator;
 
-import com.example.demo.dto.out.stock.Stock;
-import com.example.demo.dto.out.stock.StockOutline;
-import com.example.demo.shoe.entity.Shoe;
+import com.example.demo.dto.stock.out.Stock;
+import com.example.demo.dto.stock.out.StockItem;
+import com.example.demo.stock.entity.StockMeasure;
 import com.example.demo.stock.helper.StockHelper;
 import com.example.demo.utils.LongUtil;
 import lombok.AllArgsConstructor;
@@ -15,27 +15,24 @@ import java.util.List;
 @AllArgsConstructor
 public class StockCreator {
 
-    private StockHelper stockHelper;
+  private StockHelper stockHelper;
 
-    public Stock createStock(List<StockOutline> stockOutlines, Stock.State state) {
-        return Stock.builder()
-                .state(state)
-                .shoes(stockOutlines)
-                .build();
-    }
+  public Stock createStock(List<StockItem> stockOutlines, Stock.State state) {
+    return Stock.builder().state(state).shoes(stockOutlines).build();
+  }
 
-    public List<StockOutline> createStockOutline(List<Shoe> shoes) {
-        List<StockOutline> stockOutlines = new ArrayList<>();
-        this.stockHelper
-                .computeSumShoesQuantityGroupByColorAndSize(shoes)
-                .forEach(
-                        (shoe, intSummaryStatistics) ->
-                            stockOutlines.add(StockOutline.builder()
-                                    .color(shoe.getColor())
-                                    .size(shoe.getSize())
-                                    .quantity(LongUtil.convertToInteger(intSummaryStatistics.getSum()))
-                                    .build())
-                        );
-        return stockOutlines;
-    }
+  public List<StockItem> createStock(List<StockMeasure> stockMeasures) {
+    List<StockItem> stockOutlines = new ArrayList<>();
+    this.stockHelper
+        .computeSumShoesQuantityGroupByColorAndSize(stockMeasures)
+        .forEach(
+            (shoe, intSummaryStatistics) ->
+                stockOutlines.add(
+                    StockItem.builder()
+                        .color(shoe.getColor())
+                        .size(shoe.getSize())
+                        .quantity(LongUtil.convertToInteger(intSummaryStatistics.getSum()))
+                        .build()));
+    return stockOutlines;
+  }
 }

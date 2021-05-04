@@ -1,36 +1,37 @@
 package com.example.demo.stock.domain;
 
-
 import com.example.demo.core.AbstractStockCore;
 import com.example.demo.core.Implementation;
-import com.example.demo.dto.out.stock.Stock;
-import com.example.demo.dto.out.stock.StockOutline;
-import com.example.demo.shoe.repository.ShoeRepository;
+import com.example.demo.dto.stock.out.Stock;
+import com.example.demo.dto.stock.out.StockItem;
 import com.example.demo.stock.creator.StockCreator;
+import com.example.demo.stock.entity.StockMeasure;
+import com.example.demo.stock.repository.StockMeasureRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+
+import static com.example.demo.utils.ShopConstant.STOCK_MAX_CAPACITE;
+import static com.example.demo.utils.ShopConstant.STOCK_MIN_CAPACITE;
 
 @Implementation(version = 3)
 @AllArgsConstructor
 public class StockDomain extends AbstractStockCore {
 
-  private static final int STOCK_MIN_CAPACITE = 0;
-  private static final int STOCK_MAX_CAPACITE = 30;
-
   private StockCreator stockCreator;
 
-  private ShoeRepository shoeRepository;
+  private StockMeasureRepository stockMeasureRepository;
 
 
   @Override
   public Stock getStock() {
-    List<StockOutline> stockOutlines = this.stockCreator.createStockOutline(this.shoeRepository.findAll());
-    return this.stockCreator.createStock(stockOutlines, this.computeState(stockOutlines));
+    List<StockMeasure> stockMeasures = this.stockMeasureRepository.findAll();
+    List<StockItem> stock = this.stockCreator.createStock(stockMeasures);
+    return this.stockCreator.createStock(stock, this.computeState(stockMeasures));
   }
 
-  private Stock.State computeState(List<StockOutline> stock) {
-    switch (this.computeSumShoesQuantity(stock)) {
+  private Stock.State computeState(List<StockMeasure> stockMeasures) {
+    switch (this.computeSumQuantity(stockMeasures)) {
       case STOCK_MIN_CAPACITE:
         return Stock.State.EMPTY;
       case STOCK_MAX_CAPACITE:
@@ -40,9 +41,7 @@ public class StockDomain extends AbstractStockCore {
     }
   }
 
-  private Integer computeSumShoesQuantity(List<StockOutline> stock){
-    return stock.stream()
-            .mapToInt(StockOutline::getQuantity)
-            .sum();
+  private Integer computeSumQuantity(List<StockMeasure> stockMeasures) {
+    return stockMeasures.stream().mapToInt(StockMeasure::getQuantity).sum();
   }
 }
