@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.in.ShoeFilter;
-import com.example.demo.dto.out.Shoes;
+import com.example.demo.dto.out.shoe.Shoes;
 import com.example.demo.facade.ShoeFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,6 @@ public class ShoeController {
 
   @GetMapping(path = "/search")
   public ResponseEntity<Shoes> all(ShoeFilter filter, @RequestHeader Integer version){
-
     return ResponseEntity.ok(shoeFacade.get(version).search(filter));
-
   }
-
 }

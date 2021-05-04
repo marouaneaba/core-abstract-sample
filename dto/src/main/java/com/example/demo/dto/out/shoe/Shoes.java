@@ -1,11 +1,12 @@
-package com.example.demo.dto.out;
+package com.example.demo.dto.out.shoe;
 
-import com.example.demo.dto.out.Shoes.ShoesBuilder;
+import com.example.demo.dto.out.shoe.Shoes.ShoesBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 import lombok.Builder;
 import lombok.Value;
+
+import java.util.List;
 
 @Value
 @Builder
