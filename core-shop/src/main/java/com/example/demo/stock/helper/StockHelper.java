@@ -17,7 +17,7 @@ public class StockHelper {
     return stockMeasures.stream()
         .collect(
             Collectors.groupingBy(
-                stockMeasure -> this.buildShoe(stockMeasure),
+                this::buildShoe,
                 Collectors.summarizingInt(StockMeasure::getQuantity)));
   }
 
