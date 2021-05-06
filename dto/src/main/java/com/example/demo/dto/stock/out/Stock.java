@@ -1,5 +1,6 @@
-package com.example.demo.dto.out.stock;
+package com.example.demo.dto.stock.out;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -17,10 +18,11 @@ import java.util.List;
 public class Stock implements Serializable {
 
     @JsonProperty("state")
+    @JsonIgnore
     private State state;
 
     @JsonProperty("shoes")
-    private List<StockOutline> shoes;
+    private List<StockItem> shoes;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class StockBuilder {
@@ -28,9 +30,11 @@ public class Stock implements Serializable {
     }
 
     public enum State{
-
+        @JsonProperty("EMPTY")
         EMPTY,
+        @JsonProperty("FULL")
         FULL,
+        @JsonProperty("SOME")
         SOME,
         ;
 

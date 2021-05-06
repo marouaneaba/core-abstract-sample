@@ -18,9 +18,6 @@
             <column name="size" type="INTEGER">
                 <constraints nullable="true"/>
             </column>
-            <column name="quantity" type="INTEGER" defaultValueNumeric="0">
-                <constraints nullable="true"/>
-            </column>
         </createTable>
     </changeSet>
 

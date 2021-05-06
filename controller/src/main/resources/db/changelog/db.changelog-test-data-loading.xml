@@ -10,4 +10,10 @@
         <loadData tableName="shoe" file="./db/csv-data/shoe.csv" encoding="UTF-8"/>
     </changeSet>
 
+    <changeSet id="Lot 1 : 2-init stock outline table for dev" author="marouane abakarim" dbms="h2">
+        <loadData tableName="stock_outline" file="./db/csv-data/stock_outline.csv" encoding="UTF-8">
+
+        </loadData>
+    </changeSet>
+
 </databaseChangeLog>

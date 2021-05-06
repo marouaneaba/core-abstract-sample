@@ -6,4 +6,5 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <include file="/db/tables/db.changelog-table-shoe.xml"/>
+    <include file="/db/tables/db.changelog-table-stock-outline.xml"/>
 </databaseChangeLog>
