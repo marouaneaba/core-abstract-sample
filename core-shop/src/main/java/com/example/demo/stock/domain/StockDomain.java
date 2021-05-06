@@ -4,10 +4,14 @@ import com.example.demo.core.AbstractStockCore;
 import com.example.demo.core.Implementation;
 import com.example.demo.dto.stock.out.Stock;
 import com.example.demo.dto.stock.out.StockItem;
+import com.example.demo.exception.MalformedStockRequestException;
+import com.example.demo.exception.StockCapacityException;
 import com.example.demo.stock.creator.StockCreator;
 import com.example.demo.stock.entity.StockMeasure;
+import com.example.demo.stock.mapper.StockMapper;
 import com.example.demo.stock.repository.StockMeasureRepository;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.List;
 
@@ -21,7 +25,6 @@ public class StockDomain extends AbstractStockCore {
   private StockCreator stockCreator;
 
   private StockMeasureRepository stockMeasureRepository;
-
 
   @Override
   public Stock getStock() {
@@ -43,5 +46,38 @@ public class StockDomain extends AbstractStockCore {
 
   private Integer computeSumQuantity(List<StockMeasure> stockMeasures) {
     return stockMeasures.stream().mapToInt(StockMeasure::getQuantity).sum();
+  }
+
+  @Override
+  public void patch(StockItem stockItem) {
+    this.checkStockCapacity();
+    this.stockMeasureRepository
+        .findByShoe_ColorAndShoe_NameAndShoe_Size(
+            stockItem.getColor(), stockItem.getName(), stockItem.getSize())
+        .ifPresentOrElse(
+            stockMeasure -> {
+              stockMeasure.addQuantity(stockItem.getQuantity());
+              this.saveStock(stockMeasure);
+            },
+            () -> this.saveStock(StockMapper.toStockMeasure(stockItem)));
+  }
+
+  private void saveStock(StockMeasure stockMeasure) throws StockCapacityException {
+    this.checkStockData(stockMeasure);
+    this.stockMeasureRepository.save(stockMeasure);
+  }
+
+  private void checkStockCapacity() throws StockCapacityException {
+    Integer quantityUsed = this.computeSumQuantity(this.stockMeasureRepository.findAll());
+    if (quantityUsed> STOCK_MAX_CAPACITE) {
+      throw new StockCapacityException(
+          String.format("Stock capacity limited of %d shoes.", STOCK_MAX_CAPACITE));
+    }
+  }
+
+  public void checkStockData(StockMeasure stockMeasure) {
+    if ( Strings.isBlank(stockMeasure.getShoe().getName())){
+      throw new MalformedStockRequestException("Stock missing shoe name cannot be saved.");
+    }
   }
 }

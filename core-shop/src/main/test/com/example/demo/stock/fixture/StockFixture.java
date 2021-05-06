@@ -66,13 +66,13 @@ public class StockFixture {
   public static List<StockMeasure> createStockSome() {
     StockMeasure stockMeasureBlack =
         StockMeasure.builder()
-            .shoe(Shoe.builder().color(Color.BLACK).size(22).build())
+            .shoe(Shoe.builder().name("classique").color(Color.BLACK).size(22).build())
             .quantity(1)
             .build();
 
     StockMeasure stockMeasureBlue =
         StockMeasure.builder()
-            .shoe(Shoe.builder().color(Color.BLUE).size(6).build())
+            .shoe(Shoe.builder().name("basket").color(Color.BLUE).size(6).build())
             .quantity(2)
             .build();
 

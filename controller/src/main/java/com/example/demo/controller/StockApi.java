@@ -2,13 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.ShopApiEndpoints;
 import com.example.demo.dto.stock.out.Stock;
+import com.example.demo.dto.stock.out.StockItem;
 import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Validated
 @RequestMapping(ShopApiEndpoints.STOCK)
@@ -23,4 +25,14 @@ public interface StockApi {
             })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Stock> get(@ApiParam(value = "The verion API", required = true) @RequestHeader Integer version);
+
+    @ApiOperation(value = "Update the stock by submitting a small shoe model", notes = "Update the stock", response = Stock.class, tags = {"stock",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
+            @ApiResponse(code = 400, message = "Stock capacity limited of 30 shoes", response = String.class),
+
+    })
+    @PatchMapping(path = ShopApiEndpoints.SHOES, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void patch(@RequestHeader Integer version, @Valid @RequestBody StockItem stockItem);
 }

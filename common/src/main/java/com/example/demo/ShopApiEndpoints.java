@@ -25,4 +25,5 @@ public class ShopApiEndpoints {
     public static final String SHOES_SEARCH = SHOES.concat(SEARCH);
 
     public static final String STOCK = "/stock";
+    public static final String STOCK_SHOES = "/stock/shoes";
 }
