@@ -70,12 +70,12 @@ Response
   "state": "SOME",
   "shoes": [
     {
-      "size": 1,
+      "size": 12,
       "color": "BLUE",
       "quantity": 10
     },
     {
-      "size": 14,
+      "size": 8,
       "color": "BLUE",
       "quantity": 0
     }
@@ -83,22 +83,23 @@ Response
 }
 ```
 #### Replace stock with collection of shoes sent as input:
-````
+```
 curl -X PATCH "http://localhost:8080/stock" -H "accept: */*" -H "version: 3" -H "Content-Type: application/json" -d 
-
+```
+```json
 {
     "shoes": [
         {
-            "name": "basketsz",
+            "name": "baskets",
             "color": "BLUE",
-            "size": 1,
+            "size": 36,
             "quantity": 10
         },
         {
-            "name": "basketsz",
+            "name": "classique",
             "color": "BLUE",
-            "size": 1,
-            "quantity": 0
+            "size": 12,
+            "quantity": 1
         }
     ]
 }
@@ -112,8 +113,10 @@ Response:
 
 
 #### Add shoes to the stock
-````
+```
 curl -X PATCH "http://localhost:8080/stock/shoes" -H "accept: application/json" -H "version: 3" -H "Content-Type: application/json" -d 
+```
+```json
 { 
     "name": "basket",
     "color":"BLACK",
