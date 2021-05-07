@@ -44,7 +44,7 @@ public interface StockApi {
       })
   @ApiResponses(
       value = {
-        @ApiResponse(code = 200, message = "Successful operation", response = Stock.class),
+        @ApiResponse(code = 204, message = "No content"),
         @ApiResponse(
             code = 400,
             message = "Stock capacity limited of 30 shoes",
@@ -65,10 +65,10 @@ public interface StockApi {
       })
   @ApiResponses(
       value = {
-        @ApiResponse(code = 204, message = "No content", response = Stock.class),
+        @ApiResponse(code = 204, message = "No content"),
         @ApiResponse(
             code = 400,
-            message = "Stock collection contains a duplication of stock capacity greater than 30 shoes",
+            message = "Stock collection contains a duplication shoes or stock capacity greater than 30 shoes",
             response = String.class),
       })
   @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

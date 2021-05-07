@@ -91,4 +91,5 @@ public class StockDomain extends AbstractStockCore {
       throw new StockShoesDuplicationException("The collection contains a duplication of shoe.");
     }
   }
+  
 }
