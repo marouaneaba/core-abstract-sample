@@ -12,7 +12,9 @@
 
     <changeSet id="Lot 1 : 2-init stock outline table for dev" author="marouane abakarim" dbms="h2">
         <loadData tableName="stock_outline" file="./db/csv-data/stock_outline.csv" encoding="UTF-8">
-
+            <column name="id" type="NUMERIC"/>
+            <column name="id_shoe" type="NUMERIC"/>
+            <column name="quantity" type="NUMERIC"/>
         </loadData>
     </changeSet>
 

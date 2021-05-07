@@ -42,9 +42,9 @@ class StockDomainTest {
 
   @Autowired private StockDomain stockDomain;
 
-  @Captor ArgumentCaptor<StockMeasure> argCaptor;
-
   @MockBean private StockMeasureRepository stockMeasureRepository;
+
+  @Captor ArgumentCaptor<StockMeasure> argCaptor;
 
   @Test
   void shouldReturnStockStateEmptyWhenSumShoesQunatityIsZero() {

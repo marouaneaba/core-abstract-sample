@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = {StockHelper.class, StockCreator.class})
@@ -31,28 +30,18 @@ class StockCreatorTest {
   @MockBean private StockHelper stockHelper;
 
   @Test
-  void shouldReturnStockGroupByColorAndSize() {
+  void shouldReturnStockOutlineListByShoeListGroupByColorAndSize() {
     // Given
     List<StockMeasure> shoes = StockFixture.createStockSome();
     Mockito.when(this.stockHelper.computeSumShoesQuantityGroupByColorAndSize(any()))
         .thenReturn(this.computeSumShoesQuantityGroupByColorAndSize(shoes));
 
     // When
-    List<StockItem> stockItems = this.stockCreator.createStock(shoes);
+    List<StockItem> stockOutlines = this.stockCreator.createStock(shoes);
 
     // Then
-
-    verify(stockHelper).computeSumShoesQuantityGroupByColorAndSize(any());
-    assertThat(stockItems)
-            .isNotNull()
-            .doesNotContainNull()
-            .asList()
-            .hasSize(2);
-
-    assertThat(stockItems.stream()
-            .mapToInt(StockItem::getQuantity)
-            .sum())
-            .isEqualTo(8);
+    assertThat(stockOutlines).isNotNull().doesNotContainNull().asList().hasSize(2);
+    assertThat(stockOutlines.stream().mapToInt(StockItem::getQuantity).sum()).isEqualTo(8);
   }
 
   private Map<Shoe, IntSummaryStatistics> computeSumShoesQuantityGroupByColorAndSize(

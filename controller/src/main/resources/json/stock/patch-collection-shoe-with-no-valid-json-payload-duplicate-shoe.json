@@ -1,0 +1,22 @@
+{
+  "shoes": [
+    {
+      "name": "classique",
+      "color": "BLUE",
+      "size": 1,
+      "quantity": 10
+    },
+    {
+      "name": "classique",
+      "color": "BLUE",
+      "size": 1,
+      "quantity": 10
+    },
+    {
+      "name": "baskets",
+      "color": "BLUE",
+      "size": 12,
+      "quantity": 3
+    }
+  ]
+}

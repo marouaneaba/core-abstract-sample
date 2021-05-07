@@ -1,8 +1,8 @@
 package com.example.demo.utils;
 
-public class LongUtil {
+public class LongUtils {
 
-    private LongUtil() {
+    private LongUtils() {
         throw new AssertionError("Utility class must not be instantiated.");
     }
 
