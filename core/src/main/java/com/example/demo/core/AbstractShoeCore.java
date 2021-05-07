@@ -1,11 +1,12 @@
 package com.example.demo.core;
 
 import com.example.demo.facade.ShoeFacade;
-import java.util.Optional;
-import javax.annotation.PostConstruct;
 import lombok.val;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 public abstract class AbstractShoeCore implements ShoeCore {
 
