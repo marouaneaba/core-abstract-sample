@@ -1,0 +1,16 @@
+{
+  "shoes": [
+    {
+      "name": "basktz",
+      "color": "BLUE",
+      "size": 1,
+      "quantity": 10
+    },
+    {
+      "name": "classique",
+      "color": "BLUE",
+      "size": 1,
+      "quantity": 2
+    }
+  ]
+}

@@ -3,8 +3,6 @@ package com.example.demo.dto.shoe.out;
 
 import com.example.demo.dto.shoe.Color;
 import com.example.demo.dto.shoe.out.Shoe.ShoeBuilder;
-import com.example.demo.dto.shoe.Color;
-import com.example.demo.dto.shoe.out.Shoe.ShoeBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;

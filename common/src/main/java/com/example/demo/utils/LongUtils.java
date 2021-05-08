@@ -1,16 +1,18 @@
 package com.example.demo.utils;
 
+
+import com.example.demo.error.ErrorMessage;
+
 public class LongUtils {
 
     private LongUtils() {
-        throw new AssertionError("Utility class must not be instantiated.");
+    throw new IllegalCallerException(ErrorMessage.UTILITY_CLASS_INSTANTIATE_ERROR.getDescription());
     }
 
     public static Integer convertToInteger(Long value) {
-        try{
-            return value.intValue();
-        }catch (NullPointerException e){
-            return Integer.valueOf(0);
+        if (value != null) {
+            return Math.toIntExact(value);
         }
+        return Integer.valueOf(0);
     }
 }

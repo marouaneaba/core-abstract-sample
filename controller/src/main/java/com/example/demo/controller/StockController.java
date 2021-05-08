@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.stock.out.Stock;
 import com.example.demo.dto.stock.out.StockItem;
+import com.example.demo.exception.StockCapacityException;
+import com.example.demo.exception.StockShoesDuplicationException;
 import com.example.demo.facade.StockFacade;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,13 @@ public class StockController implements StockApi {
 
   public void patch(
       @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version,
-      @ApiParam(value = "Stock item object" ,required=true ) @Valid @RequestBody StockItem stockItem) {
+      @ApiParam(value = "Stock item object" ,required=true ) @Valid @RequestBody StockItem stockItem) throws StockCapacityException {
     this.stockFacade.get(version).patch(stockItem);
   }
 
   public void patch(
       @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version,
-      @ApiParam(value = "Stock object contains list of stock item" ,required=true ) @Valid @RequestBody Stock stock) {
+      @ApiParam(value = "Stock object contains list of stock item" ,required=true ) @Valid @RequestBody Stock stock) throws StockShoesDuplicationException {
     this.stockFacade.get(version).patch(stock);
   }
 }

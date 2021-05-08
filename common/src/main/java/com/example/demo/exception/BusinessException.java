@@ -1,13 +1,11 @@
 package com.example.demo.exception;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Getter
-@Setter
-public class BusinessException extends RuntimeException {
+@Data
+public class BusinessException extends Exception {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(BusinessException.class);
     private static final String DEFAULT_ERROR_CODE = "BUSINESS_EXCEPTION";
