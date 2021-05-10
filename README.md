@@ -59,9 +59,9 @@ http://[host:port]/swagger-ui/ (ex en local : http://localhost:8080/swagger-ui/)
 ## APIs REST Endpoints
 
 #### Fetch stock with state:
-````
+```
 curl -X GET "http://localhost:8080/stock" -H "accept: application/json" -H "version: 3"
-````
+```
 Response 
 200 body :
 
@@ -103,7 +103,7 @@ curl -X PATCH "http://localhost:8080/stock" -H "accept: */*" -H "version: 3" -H 
         }
     ]
 }
-````
+```
 
 Response: 
 
@@ -123,7 +123,7 @@ curl -X PATCH "http://localhost:8080/stock/shoes" -H "accept: application/json" 
     "quantity":0,
     "size":0
 }
-````
+```
 Response: 
 * 204 No content
 * 400 Stock capacity limited of 30 shoes

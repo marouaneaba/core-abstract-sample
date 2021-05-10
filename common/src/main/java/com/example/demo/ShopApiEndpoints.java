@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.error.ErrorMessage;
+
 /**
  * Centralizes all endpoints available for REST APIs.
  * Used in the definition of APIs
@@ -8,7 +10,8 @@ package com.example.demo;
 public class ShopApiEndpoints {
 
     private ShopApiEndpoints() {
-        throw new AssertionError("Utility class must not be instantiated.");
+    throw new IllegalCallerException(
+        ErrorMessage.SHOP_API_ENNDPOINTS_INSTANTIATE_ERROR.getDescription());
     }
 
     public static final String ROOT = "/";

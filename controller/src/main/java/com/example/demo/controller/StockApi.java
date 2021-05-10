@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.ShopApiEndpoints;
 import com.example.demo.dto.stock.out.Stock;
 import com.example.demo.dto.stock.out.StockItem;
+import com.example.demo.exception.StockCapacityException;
+import com.example.demo.exception.StockShoesDuplicationException;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +35,8 @@ public interface StockApi {
         @ApiResponse(code = 400, message = "Malformed request version param"),
       })
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  ResponseEntity<Stock> get(@ApiParam(value = "The verion API", required = true) @RequestHeader Integer version);
+  ResponseEntity<Stock> get(
+      @ApiParam(value = "The verion API", required = true) @RequestHeader Integer version);
 
   @ApiOperation(
       value = "Update the stock by submitting a stock item model",
@@ -54,10 +57,13 @@ public interface StockApi {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void patch(
       @RequestHeader Integer version,
-      @ApiParam(value = "Stock item object", required = true) @Valid @RequestBody StockItem stockItem);
+      @ApiParam(value = "Stock item object", required = true) @Valid @RequestBody
+          StockItem stockItem)
+      throws StockCapacityException;
 
   @ApiOperation(
-      value = "Update the stock by submitting a big json objet containing all shoes and their quantities",
+      value =
+          "Update the stock by submitting a big json objet containing all shoes and their quantities",
       notes = "Update the stock",
       response = Stock.class,
       tags = {
@@ -68,12 +74,17 @@ public interface StockApi {
         @ApiResponse(code = 204, message = "No content"),
         @ApiResponse(
             code = 400,
-            message = "Stock collection contains a duplication shoes or stock capacity greater than 30 shoes",
+            message =
+                "Stock collection contains a duplication shoes or stock capacity greater than 30 shoes",
             response = String.class),
       })
   @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void patch(
       @RequestHeader Integer version,
-      @ApiParam(value = "Stock object contains list of stock item", required = true) @Valid @RequestBody Stock stock);
+      @ApiParam(value = "Stock object contains list of stock item", required = true)
+          @Valid
+          @RequestBody
+          Stock stock)
+      throws StockShoesDuplicationException;
 }

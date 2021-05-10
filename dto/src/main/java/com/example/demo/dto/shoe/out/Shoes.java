@@ -2,7 +2,6 @@ package com.example.demo.dto.shoe.out;
 
 import com.example.demo.dto.shoe.out.Shoes.ShoesBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.example.demo.dto.shoe.out.Shoes.ShoesBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;

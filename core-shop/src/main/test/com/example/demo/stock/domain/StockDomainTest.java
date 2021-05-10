@@ -92,7 +92,7 @@ class StockDomainTest {
   }
 
   @Test
-  void shouldUpdateStockQuantityWhenStockByColorAndNameAndSizeExisting() {
+  void shouldUpdateStockQuantityWhenStockByColorAndNameAndSizeExisting() throws StockCapacityException {
     // Given
     Optional<StockMeasure> stockMeasureOptional =
         Optional.ofNullable(StockFixture.createStockSome().get(0));
@@ -111,7 +111,7 @@ class StockDomainTest {
   }
 
   @Test
-  void shouldCreateNowShoeAndQuantityWhenStockByColorAndNameAndSizeNotExisting() {
+  void shouldCreateNowShoeAndQuantityWhenStockByColorAndNameAndSizeNotExisting() throws StockCapacityException {
     // Given
     Optional<StockMeasure> stockMeasureOptional = Optional.empty();
     Mockito.when(
